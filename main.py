@@ -6,7 +6,6 @@ from speedutils import typing
 from os import environ as env
 from pymongo import MongoClient
 from checks.user import duplicated_pokemon_id_one_user
-from asyncio import sleep
 
 bot = Client(512, token=env["TOKEN"])
 db_client = MongoClient(env["MONGO_URI"])
@@ -30,6 +29,15 @@ async def on_message(data, shard):
             route = typing.send_message(data["channel_id"])
             await bot.http.request(route, json={"content": "No access"})
             return
+    elif args[0] == "wtf!scan":
+        if env["MOD_ROLE_ID"] not in data["member"]["roles"]:
+            route = typing.send_message(data["channel_id"])
+            await bot.http.request(route, json={"content": "No access"})
+            return
+        bans_this_wave = await do_scan()
+        route = typing.send_message(data["channel_id"])
+        await bot.http.request(route, json={"content": f"Scan done! Blocked users: {bans_this_wave}"})
+
 
 
 async def ban(user_id, reason, *, check_violated=None):
@@ -63,5 +71,7 @@ async def do_scan():
             if not check_result:
                 # Check failed, user was banned
                 this_wave += 1
+
+    return this_wave
 
 bot.run()
