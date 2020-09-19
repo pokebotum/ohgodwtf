@@ -25,6 +25,7 @@ async def on_message(data, shard):
         route = typing.send_message(data["channel_id"])
         await bot.http.request(route, json={"content": f"Total banned users: {len(banned_users)}"})
     elif args[0] == "wtf!ban":
+        # TODO: Implement this
         if env["MOD_ROLE_ID"] not in data["member"]["roles"]:
             route = typing.send_message(data["channel_id"])
             await bot.http.request(route, json={"content": "No access"})
@@ -32,6 +33,7 @@ async def on_message(data, shard):
 
 
 async def ban(user_id, reason, *, check_violated=None):
+    # TODO: Implement this
     print(f"Banned {user_id} for {reason}. Check violated: {check_violated}")
 
 
@@ -62,12 +64,4 @@ async def do_scan():
                 # Check failed, user was banned
                 this_wave += 1
 
-
-async def check_loop():
-    while True:
-        await do_scan()
-        await sleep(10)
-
-
-bot.loop.create_task(check_loop())
 bot.run()
