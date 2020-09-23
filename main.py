@@ -39,7 +39,6 @@ async def on_message(data, shard):
         await bot.http.request(route, json={"content": f"Scan done! Blocked users: {bans_this_wave}"})
 
 
-
 async def ban(user_id, reason, *, check_violated=None):
     # TODO: Implement this
     print(f"Banned {user_id} for {reason}. Check violated: {check_violated}")
@@ -73,5 +72,6 @@ async def do_scan():
                 this_wave += 1
 
     return this_wave
+
 
 bot.run()
