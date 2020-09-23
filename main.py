@@ -8,7 +8,7 @@ from pymongo import MongoClient
 from checks.user import duplicated_pokemon_id_one_user
 
 bot = Client(512, token=env["TOKEN"])
-db_client = MongoClient(env["MONGO_URI"])
+db_client = MongoClient("database")
 db = db_client.pokebot
 users_table = db.users
 pokemon_table = db.users_pokemoms
